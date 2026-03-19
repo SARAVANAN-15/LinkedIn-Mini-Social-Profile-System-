@@ -1,88 +1,8 @@
 import React, { useState } from 'react';
-import { PostCard, Card, Button, NotificationItem, LetterAvatar } from './components';
-import { posts, currentUser, connections, notifications } from './data/staticData';
-import './styles/styles.css';
+import { Card, Button, LetterAvatar } from '../components';
+import { currentUser } from '../data/staticData';
+import '../styles/styles.css';
 
-/* FEED PAGE */
-export function Feed() {
-  return (
-    <div className="feed-container">
-      <div className="feed-main">
-        {/* Create Post Card */}
-        <Card className="create-post">
-          <div className="create-post-header">
-            <LetterAvatar
-              name={currentUser.name || 'User'}
-              className="create-post-avatar"
-            />
-            <input
-              type="text"
-              placeholder="Start a post, try writing an image or video"
-              className="create-post-input"
-            />
-          </div>
-          <div className="create-post-footer">
-            <button>📸 Photo</button>
-            <button>🎥 Video</button>
-            <button>📄 Document</button>
-            <button>📅 Schedule</button>
-          </div>
-        </Card>
-
-        {/* Posts Feed */}
-        <div className="posts-list">
-          {posts.map((post) => (
-            <PostCard
-              key={post.id}
-              author={post.author}
-              avatar={post.avatar}
-              timestamp={post.timestamp}
-              content={post.content}
-              image={post.image}
-              likes={post.likes}
-              comments={post.comments}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Right Sidebar */}
-      <div className="feed-sidebar">
-        <Card className="sidebar-widget">
-          <h3>📰 News</h3>
-          <div className="news-item">
-            <span className="news-tag">Technology</span>
-            <h4>React 18 Released</h4>
-          </div>
-          <div className="news-item">
-            <span className="news-tag">Development</span>
-            <h4>Web Dev Trends 2024</h4>
-          </div>
-          <div className="news-item">
-            <span className="news-tag">Career</span>
-            <h4>Tips for Technical Interviews</h4>
-          </div>
-        </Card>
-
-        <Card className="sidebar-widget">
-          <h3>👥 Suggested For You</h3>
-          <div className="suggested-item">
-            <p><strong>Emma Wilson</strong></p>
-            <p>Product Designer</p>
-            <button>+ Follow</button>
-          </div>
-          <div className="suggested-item">
-            <p><strong>Chris Brown</strong></p>
-            <p>Technical Writer</p>
-            <button>+ Follow</button>
-          </div>
-        </Card>
-      </div>
-    </div>
-  );
-}
-
-/* PROFILE PAGE */
 export function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [editingSection, setEditingSection] = useState(null);
@@ -185,10 +105,19 @@ export function Profile() {
           ) : (
             <>
               <div className="profile-header-content">
-                <h1>{profile.name}</h1>
+                <h1>{profile.name} <span className="verified-badge">✓</span></h1>
                 <p className="headline">{profile.headline}</p>
-                <p className="location">📍 {profile.location}</p>
-                <p className="bio">{profile.bio}</p>
+                <div className="location-info">
+                  <span className="location">📍 {profile.location}</span>
+                  <span className="dot">•</span>
+                  <span className="contact-link">Contact info</span>
+                </div>
+                
+                <div className="open-to-frame">
+                   <h4>Open to work</h4>
+                   <p>Frontend Developer, Web Developer, UI/UX Designer roles</p>
+                   <a>Show details</a>
+                </div>
               </div>
 
               <div className="profile-actions">
@@ -307,14 +236,16 @@ export function Profile() {
             <>
               {profile.experience.map((exp) => (
                 <div key={exp.id} className="experience-item">
-                  <div className="experience-header">
-                    <h3>{exp.title}</h3>
-                    {exp.isCurrent && <span className="experience-badge">Current</span>}
+                  <LetterAvatar name={exp.company} className="experience-logo" />
+                  <div className="experience-details">
+                    <div className="experience-header">
+                      <h3>{exp.title}</h3>
+                      {exp.isCurrent && <span className="experience-badge">Current</span>}
+                    </div>
+                    <p className="company">{exp.company}</p>
+                    <p className="duration">{exp.duration}</p>
+                    <p className="description">{exp.description}</p>
                   </div>
-                  <p className="company">{exp.company}</p>
-                  <p className="duration">{exp.duration}</p>
-                  <p className="description">{exp.description}</p>
-                  {profile.experience.indexOf(exp) < profile.experience.length - 1 && <hr />}
                 </div>
               ))}
             </>
@@ -376,10 +307,13 @@ export function Profile() {
             <>
               {profile.education.map((edu) => (
                 <div key={edu.id} className="education-item">
-                  <h3>{edu.degree}</h3>
-                  <p className="university">{edu.university} • {edu.year}</p>
-                  {edu.gpa && <p className="gpa">CGPA: {edu.gpa}</p>}
-                  {profile.education.indexOf(edu) < profile.education.length - 1 && <hr />}
+                  <LetterAvatar name={edu.university} className="education-logo" />
+                  <div className="education-details">
+                    <h3>{edu.university}</h3>
+                    <p className="degree">{edu.degree}</p>
+                    <p className="duration">{edu.year}</p>
+                    {edu.gpa && <p className="gpa">Grade: {edu.gpa}</p>}
+                  </div>
                 </div>
               ))}
             </>
@@ -414,198 +348,6 @@ export function Profile() {
           )}
         </Card>
       </div>
-    </div>
-  );
-}
-
-/* CONNECTIONS PAGE*/
-export function Connections() {
-  const [filteredConnections, setFilteredConnections] = useState(connections);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [connectedIds, setConnectedIds] = useState(new Set());
-
-  const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
-    const filtered = connections.filter(
-      (conn) =>
-        conn.name.toLowerCase().includes(term) ||
-        conn.role.toLowerCase().includes(term)
-    );
-    setFilteredConnections(filtered);
-  };
-
-  const handleConnect = (id) => {
-    const newConnectedIds = new Set(connectedIds);
-    if (newConnectedIds.has(id)) {
-      newConnectedIds.delete(id);
-    } else {
-      newConnectedIds.add(id);
-    }
-    setConnectedIds(newConnectedIds);
-  };
-
-  return (
-    <div className="connections-container">
-      <div className="connections-header">
-        <h1>💼 My Connections</h1>
-        <p>You have {connections.length} connections</p>
-      </div>
-
-      <Card className="connections-search">
-        <input
-          type="text"
-          placeholder="Search connections by name or role..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="search-input"
-        />
-      </Card>
-
-      <div className="connections-grid">
-        {filteredConnections.length > 0 ? (
-          filteredConnections.map((connection) => (
-            <Card key={connection.id} className="connection-card">
-              <LetterAvatar name={connection.name} className="connection-avatar" />
-              <h4>{connection.name}</h4>
-              <p>{connection.role}</p>
-              <p className="mutual">{connection.mutualConnections} mutual connections</p>
-              <div className="connection-actions">
-                <Button
-                  text={connectedIds.has(connection.id) ? '✓ Connected' : 'Connect'}
-                  variant={connectedIds.has(connection.id) ? 'success' : 'primary'}
-                  size="small"
-                  onClick={() => handleConnect(connection.id)}
-                />
-                <Button text="Message" variant="secondary" size="small" />
-              </div>
-            </Card>
-          ))
-        ) : (
-          <p className="no-results">No connections found</p>
-        )}
-      </div>
-
-      {/* Browse Section */}
-      <div className="browse-section">
-        <h2>👥 Browse Professionals</h2>
-        <div className="connections-grid">
-          <Card className="browse-card">
-            <LetterAvatar name="David Wilson" className="connection-avatar" />
-            <h4>David Wilson</h4>
-            <p>Software Architect</p>
-            <p className="mutual">18 mutual connections</p>
-            <button>+ Connect</button>
-          </Card>
-          <Card className="browse-card">
-            <LetterAvatar name="Lisa Anderson" className="connection-avatar" />
-            <h4>Lisa Anderson</h4>
-            <p>Data Scientist</p>
-            <p className="mutual">9 mutual connections</p>
-            <button>+ Connect</button>
-          </Card>
-          <Card className="browse-card">
-            <LetterAvatar name="Robert Martin" className="connection-avatar" />
-            <h4>Robert Martin</h4>
-            <p>Cloud Engineer</p>
-            <p className="mutual">11 mutual connections</p>
-            <button>+ Connect</button>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* NOTIFICATIONS PAGE*/
-export function Notifications() {
-  const [notificationList, setNotificationList] = useState(notifications);
-  const [filterType, setFilterType] = useState('all');
-
-  const filteredNotifications = filterType === 'all'
-    ? notificationList
-    : notificationList.filter((notif) => notif.type === filterType);
-
-  const unreadCount = notificationList.filter((n) => !n.read).length;
-
-  return (
-    <div className="notifications-container">
-      <div className="notifications-header">
-        <h1>🔔 Notifications</h1>
-        {unreadCount > 0 && (
-          <span className="unread-badge">{unreadCount} new</span>
-        )}
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="notification-filters-container">
-        <button
-          className={`filter-btn ${filterType === 'all' ? 'active' : ''}`}
-          onClick={() => setFilterType('all')}
-        >
-          All
-        </button>
-        <button
-          className={`filter-btn ${filterType === 'connection' ? 'active' : ''}`}
-          onClick={() => setFilterType('connection')}
-        >
-          Connections
-        </button>
-        <button
-          className={`filter-btn ${filterType === 'like' ? 'active' : ''}`}
-          onClick={() => setFilterType('like')}
-        >
-          Likes
-        </button>
-        <button
-          className={`filter-btn ${filterType === 'comment' ? 'active' : ''}`}
-          onClick={() => setFilterType('comment')}
-        >
-          Comments
-        </button>
-        <button
-          className={`filter-btn ${filterType === 'mention' ? 'active' : ''}`}
-          onClick={() => setFilterType('mention')}
-        >
-          Mentions
-        </button>
-      </div>
-
-      {/* Notifications List */}
-      <div className="notifications-list">
-        {filteredNotifications.length > 0 ? (
-          filteredNotifications.map((notification) => (
-            <NotificationItem
-              key={notification.id}
-              type={notification.type}
-              message={notification.message}
-              avatar={notification.avatar}
-              timestamp={notification.timestamp}
-              read={notification.read}
-            />
-          ))
-        ) : (
-          <Card className="no-notifications">
-            <p>No notifications to show</p>
-          </Card>
-        )}
-      </div>
-
-      {/* Mark as Read Button */}
-      {unreadCount > 0 && (
-        <Card className="mark-read-container">
-          <button
-            className="mark-all-btn"
-            onClick={() =>
-              setNotificationList(
-                notificationList.map((n) => ({ ...n, read: true }))
-              )
-            }
-          >
-            Mark all as read
-          </button>
-        </Card>
-      )}
     </div>
   );
 }

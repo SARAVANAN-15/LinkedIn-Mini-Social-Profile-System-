@@ -3,21 +3,19 @@ import { Link } from 'react-router-dom';
 import { currentUser } from './data/staticData';
 import './styles/styles.css';
 
-/* ============================================
-   LETTER AVATAR COMPONENT
-   ============================================ */
+/* LETTER AVATAR COMPONENT*/
 export function LetterAvatar({ name, className = '' }) {
   const initial = name ? name.charAt(0).toUpperCase() : '?';
   return (
-    <div 
-      className={className} 
+    <div
+      className={className}
       style={{
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        backgroundColor: '#0a66c2', 
-        color: 'white', 
-        fontWeight: 'bold', 
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#0a66c2',
+        color: 'white',
+        fontWeight: 'bold',
         fontSize: className.includes('profile-avatar') ? '4em' : className.includes('connection-avatar') ? '2em' : '1.2em'
       }}
     >
@@ -26,9 +24,7 @@ export function LetterAvatar({ name, className = '' }) {
   );
 }
 
-/* ============================================
-   BUTTON COMPONENT
-   ============================================ */
+/* BUTTON COMPONENT*/
 export function Button({ text, onClick, variant = 'primary', size = 'medium' }) {
   return (
     <button
@@ -40,16 +36,12 @@ export function Button({ text, onClick, variant = 'primary', size = 'medium' }) 
   );
 }
 
-/* ============================================
-   CARD COMPONENT
-   ============================================ */
+/* CARD COMPONENT*/
 export function Card({ children, className = '' }) {
   return <div className={`card ${className}`}>{children}</div>;
 }
 
-/* ============================================
-   NAVBAR COMPONENT
-   ============================================ */
+/* NAVBAR COMPONENT*/
 export function Navbar() {
   return (
     <nav className="navbar">
@@ -96,9 +88,7 @@ export function Navbar() {
   );
 }
 
-/* ============================================
-   POST CARD COMPONENT
-   ============================================ */
+/* POST CARD COMPONENT*/
 export function PostCard({ author, avatar, timestamp, content, image, likes = 0, comments = 0 }) {
   return (
     <Card className="post-card">
@@ -126,9 +116,7 @@ export function PostCard({ author, avatar, timestamp, content, image, likes = 0,
   );
 }
 
-/* ============================================
-   NOTIFICATION ITEM COMPONENT
-   ============================================ */
+/* NOTIFICATION ITEM COMPONENT*/
 export function NotificationItem({ type, message, avatar, timestamp, read = false }) {
   // Extract a sensible fallback for the first letter
   const nameMatch = message ? message.split(' ')[0] : 'N';
@@ -144,9 +132,7 @@ export function NotificationItem({ type, message, avatar, timestamp, read = fals
   );
 }
 
-/* ============================================
-   CONNECTION CARD COMPONENT
-   ============================================ */
+/* CONNECTION CARD COMPONENT*/
 export function ConnectionCard({ name, role, avatar, mutualConnections = 0 }) {
   return (
     <Card className="connection-card">

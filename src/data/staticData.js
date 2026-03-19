@@ -100,6 +100,36 @@ export const posts = [
     image: null,
     likes: 1200,
     comments: 156
+  },
+  {
+    id: 5,
+    author: 'Alex Taylor',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=AlexTaylor&backgroundColor=5cb85c',
+    timestamp: '12 hours ago',
+    content: 'Just successfully migrated our entire monolithic backend to a serverless microservices architecture! The latency improvements are blowing my mind. 🚀☁️ #cloudnative #serverless',
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&auto=format',
+    likes: 842,
+    comments: 112
+  },
+  {
+    id: 6,
+    author: 'Emily Chen',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=EmilyChen&backgroundColor=f0ad4e',
+    timestamp: '1 day ago',
+    content: 'Thrilled to announce that after 6 months of intense user research and prototyping, my team is finally launching the new AI-powered analytics dashboard! Thank you to everyone who made this possible. ✨',
+    image: null,
+    likes: 1540,
+    comments: 204
+  },
+  {
+    id: 7,
+    author: 'Jessica Lee',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=JessicaLee&backgroundColor=d9534f',
+    timestamp: '2 days ago',
+    content: 'Are you still deploying manually on Fridays? 🛑 I just wrote a comprehensive guide on setting up zero-downtime CI/CD pipelines using GitHub Actions and Docker. Link in the comments!',
+    image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=600&h=400&fit=crop&auto=format',
+    likes: 3450,
+    comments: 428
   }
 ];
 
@@ -146,6 +176,34 @@ export const connections = [
     role: 'DevOps Engineer',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=JessicaLee&backgroundColor=d9534f',
     mutualConnections: 7
+  },
+  {
+    id: 7,
+    name: 'David Wilson',
+    role: 'Software Architect',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=DavidWilson&backgroundColor=9c27b0',
+    mutualConnections: 22
+  },
+  {
+    id: 8,
+    name: 'Robert Martin',
+    role: 'Data Engineer',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=RobertMartin&backgroundColor=3f51b5',
+    mutualConnections: 4
+  },
+  {
+    id: 9,
+    name: 'Amanda Cooper',
+    role: 'UX Researcher',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=AmandaCooper&backgroundColor=e91e63',
+    mutualConnections: 19
+  },
+  {
+    id: 10,
+    name: 'Marcus Tech',
+    role: 'Technical Recruiter at Google',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=MarcusTech&backgroundColor=009688',
+    mutualConnections: 45
   }
 ];
 
@@ -189,6 +247,30 @@ export const notifications = [
     message: 'Alex Taylor sent you a connection request',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=AlexTaylor&backgroundColor=5cb85c',
     timestamp: '2 days ago',
+    read: true
+  },
+  {
+    id: 6,
+    type: 'mention',
+    message: 'David Wilson viewed your profile',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=DavidWilson&backgroundColor=9c27b0',
+    timestamp: '3 days ago',
+    read: true
+  },
+  {
+    id: 7,
+    type: 'like',
+    message: 'Amanda Cooper liked your comment on Emily\'s post',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=AmandaCooper&backgroundColor=e91e63',
+    timestamp: '4 days ago',
+    read: true
+  },
+  {
+    id: 8,
+    type: 'comment',
+    message: 'Robert Martin commented on your post: "This architecture makes perfect sense, great write-up!"',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=RobertMartin&backgroundColor=3f51b5',
+    timestamp: '1 week ago',
     read: true
   }
 ];
